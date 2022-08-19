@@ -14,6 +14,7 @@ class ElementalTemplateExtension extends DataExtension
      */
     protected function onAfterWrite()
     {
+        $owner = $owner->getOwner();
         if($this->elementalTemplateInfiniteLoopCheck === false) {
             $this->elementalTemplateInfiniteLoopCheck = true;
             $owner->findOrMakeDefaultElements();
