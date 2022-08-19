@@ -1,0 +1,7 @@
+---
+Name: elemental-template
+---
+
+Page:
+  extensions:
+    - Sunnysideup\ElementalTemplate\Extensions\ElementalTemplatePageExtension
