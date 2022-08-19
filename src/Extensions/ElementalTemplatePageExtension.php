@@ -1,42 +1,49 @@
 <?php
+
 namespace Sunnysideup\ElementalTemplate\Extensions;
-use SilverStripe\ORM\DataExtension;
 
 use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\DataExtension;
+
+use SilverStripe\Versioned\Versioned;
 
 class ElementalTemplateExtension extends DataExtension
 {
     /**
-     * little helper to make sure we dont loop forever
+     * little helper to make sure we dont loop forever.
+     *
      * @var bool
      */
     private $elementalTemplateInfiniteLoopCheck = false;
 
-    protected function onAfterWrite()
+    public function onAfterWrite()
     {
-        $owner = $owner->getOwner();
-        if($this->elementalTemplateInfiniteLoopCheck === false) {
+        $owner = $this->getOwner();
+        if (false === $this->elementalTemplateInfiniteLoopCheck) {
             $this->elementalTemplateInfiniteLoopCheck = true;
             $owner->findOrMakeDefaultElements();
         }
     }
 
-    protected function findOrMakeDefaultElements() : void
+    protected function findOrMakeDefaultElements(): void
     {
-        $owner = $owner->getOwner();
+        $owner = $this->getOwner();
         $write = false;
-        if(! $owner->ElementalArea()->Elements()->exists()) {
-            foreach(
-                ['inherited' => 'get', 'uninherited' => 'uninherited']
+        if (! $owner->ElementalArea()->Elements()->exists()) {
+            foreach (
+                [
+                    'inherited' => 'get',
+                    'uninherited' => 'uninherited',
+                ]
                 as $topVarNameAppendix => $configMethod
             ) {
-                $list = (array) array_filter(Config::inst()->$configMethod('elemental_template_'.$topVarNameAppendix)?:[]);
-                foreach($list as $areaName => $items) {
-                    $area = $owner->$areaName();
-                    foreach(['_top', '', '_bottom'] as $innerVarNameAppendix) {
-                        $elems = (array) array_filter($item['elements'.$innerVarNameAppendix]?:[]);
-                        if(! empty($elems)) {
-                            if($this->findOrMakeDefaultElementsInner($area, $items)) {
+                $list = (array) array_filter(Config::inst()->{$configMethod}('elemental_template_' . $topVarNameAppendix) ?: []);
+                foreach ($list as $areaName => $items) {
+                    $area = $owner->{$areaName}();
+                    foreach (['_top', '', '_bottom'] as $innerVarNameAppendix) {
+                        $elems = (array) array_filter($items['elements' . $innerVarNameAppendix] ?: []);
+                        if (! empty($elems)) {
+                            if ($this->findOrMakeDefaultElementsInner($area, $items)) {
                                 $write = true;
                             }
                         }
@@ -44,12 +51,13 @@ class ElementalTemplateExtension extends DataExtension
                 }
             }
         }
-        if($write) {
+
+        if ($write) {
             $owner->writeToStage(Versioned::DRAFT);
         }
     }
 
-    private function findOrMakeDefaultElementsInner($area, $elems) : bool
+    private function findOrMakeDefaultElementsInner($area, $elems): bool
     {
         $write = false;
         if ($area && $area->ID) {
@@ -64,7 +72,7 @@ class ElementalTemplateExtension extends DataExtension
                 $write = true;
             }
         }
+
         return $write;
     }
-
 }
