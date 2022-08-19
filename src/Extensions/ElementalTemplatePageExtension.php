@@ -26,34 +26,45 @@ class ElementalTemplateExtension extends DataExtension
         $owner = $owner->getOwner();
         $write = false;
         if(! $owner->ElementalArea()->Elements()->exists()) {
-            $elems = array_filter(
-                array_merge(
-                    (array) Config::inst()->uninherited($owner->ClassName, 'elemental_template_default_elements_top')?:[],
-                    (array) Config::inst()->get($owner->ClassName, 'elemental_template_global_elements')?:[],
-                    (array) Config::inst()->uninherited($owner->ClassName, 'elemental_template_default_elements')?:[],
-                    (array) Config::inst()->get($owner->ClassName, 'elemental_template_global_elements_bottom')?:[],
-                )
-            );
-            if (empty($elems)) {
-                return;
-            }
-            $area = $owner->ElementalArea();
-            if ($area && $area->ID) {
-                foreach ($elems as $className) {
-                    $elem = call_user_func([$className, 'create']);
-                    $elem->Title = 'Default ' . strtolower(Config::inst()->get($className, 'singular_name'));
-                    $elem->ParentID = $area->ID;
-                    // foreach($elementValues as $field => $value) {
-                    //     $elem->$field = $value;
-                    // }
-                    $elem->writeToStage(Versioned::DRAFT);
-                    $write = true;
+            foreach(
+                ['inherited' => 'get', 'uninherited' => 'uninherited']
+                as $topVarNameAppendix => $configMethod
+            ) {
+                $list = (array) array_filter(Config::inst()->$configMethod('elemental_template_'.$topVarNameAppendix)?:[]);
+                foreach($list as $areaName => $items) {
+                    $area = $owner->$areaName();
+                    foreach(['_top', '', '_bottom'] as $innerVarNameAppendix) {
+                        $elems = (array) array_filter($item['elements'.$innerVarNameAppendix]?:[]);
+                        if(! empty($elems)) {
+                            if($this->findOrMakeDefaultElementsInner($area, $items)) {
+                                $write = true;
+                            }
+                        }
+                    }
                 }
             }
         }
         if($write) {
             $owner->writeToStage(Versioned::DRAFT);
         }
+    }
+
+    private function findOrMakeDefaultElementsInner($area, $elems) : bool
+    {
+        $write = false;
+        if ($area && $area->ID) {
+            foreach ($elems as $className) {
+                $elem = call_user_func([$className, 'create']);
+                $elem->Title = 'Default ' . strtolower(Config::inst()->get($className, 'singular_name'));
+                $elem->ParentID = $area->ID;
+                // foreach($elementValues as $field => $value) {
+                //     $elem->$field = $value;
+                // }
+                $elem->writeToStage(Versioned::DRAFT);
+                $write = true;
+            }
+        }
+        return $write;
     }
 
 }

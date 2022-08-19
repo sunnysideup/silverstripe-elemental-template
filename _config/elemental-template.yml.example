@@ -2,18 +2,24 @@
 Name: elemental-template-settings
 ---
 
-# inherits for other pages that are descendents of the Page class
 Page:
-  elemental_template_global_elements:
-    - MyElementalBlock
-  elemental_template_global_elements_bottom:
-    - MyFooterBlock
+  elemental_template_inherited:
+    ElementalArea
+      elements:
+        - MyElementalBlock
+      elements_bottom:
+        - MyFooterBlock
 
-# does inherit for other pages that are descendents of MyOtherPage class
 MyOtherPage:
-  elemental_template_default_elements_top:
-    - MyElementalBlockSpecific
-    - MyElementalOtherSpecificBlock
-  elemental_template_default_elements:
-    - MyElementalBlockSpecific
-    - MyElementalOtherSpecificBlock
+  elemental_template_uninherited:
+    ElementalArea:
+      elements_top:
+        - MyElementalBlockSpecific
+        - MyElementalOtherSpecificBlock
+      elements:
+        - MyElementalBlockSpecific
+        - MyElementalOtherSpecificBlock
+
+# NOTE:
+# inherited_elements inherits for other pages that are descendents of the Page class
+# uninherited_element does inherit for other pages that are descendents of MyOtherPage class
