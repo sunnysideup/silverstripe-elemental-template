@@ -3,11 +3,12 @@
 namespace Sunnysideup\ElementalTemplate\Extensions;
 
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataExtension;
 
 use SilverStripe\Versioned\Versioned;
 
-class ElementalTemplateExtension extends DataExtension
+use SilverStripe\CMS\Model\SiteTreeExtension;
+
+class ElementalTemplateExtension extends SiteTreeExtension
 {
     /**
      * little helper to make sure we dont loop forever.
