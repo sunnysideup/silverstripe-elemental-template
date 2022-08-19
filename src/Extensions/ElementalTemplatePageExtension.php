@@ -28,10 +28,10 @@ class ElementalTemplateExtension extends DataExtension
         if(! $owner->ElementalArea()->Elements()->exists()) {
             $elems = array_filter(
                 array_merge(
-                    (array) Config::inst()->uninherited($owner->ClassName, 'elemental_template_default_elements_top'),
-                    (array) Config::inst()->get($owner->ClassName, 'elemental_template_global_elements'),
-                    (array) Config::inst()->uninherited($owner->ClassName, 'elemental_template_default_elements'),
-                    (array) Config::inst()->get($owner->ClassName, 'elemental_template_global_elements_bottom'),
+                    (array) Config::inst()->uninherited($owner->ClassName, 'elemental_template_default_elements_top')?:[],
+                    (array) Config::inst()->get($owner->ClassName, 'elemental_template_global_elements')?:[],
+                    (array) Config::inst()->uninherited($owner->ClassName, 'elemental_template_default_elements')?:[],
+                    (array) Config::inst()->get($owner->ClassName, 'elemental_template_global_elements_bottom')?:[],
                 )
             );
             if (empty($elems)) {
