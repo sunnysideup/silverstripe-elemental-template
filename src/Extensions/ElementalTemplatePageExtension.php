@@ -6,12 +6,12 @@ use SilverStripe\Core\Config\Config;
 
 class ElementalTemplateExtension extends DataExtension
 {
-
+    /**
+     * little helper to make sure we dont loop forever
+     * @var bool
+     */
     private $elementalTemplateInfiniteLoopCheck = false;
 
-    /**
-     * @return
-     */
     protected function onAfterWrite()
     {
         $owner = $owner->getOwner();
@@ -21,7 +21,7 @@ class ElementalTemplateExtension extends DataExtension
         }
     }
 
-    protected function findOrMakeDefaultElements()
+    protected function findOrMakeDefaultElements() : void
     {
         $owner = $owner->getOwner();
         $write = false;
