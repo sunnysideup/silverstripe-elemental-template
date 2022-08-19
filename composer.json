@@ -9,7 +9,7 @@
     "templates",
     "elemental",
     "page type",
-    "RequireDefaultRecord",
+    "RequireDefaultRecords",
     "seeding"
   ],
   "type": "silverstripe-vendormodule",
