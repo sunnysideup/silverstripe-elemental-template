@@ -4,4 +4,4 @@ Name: elemental-template
 
 Page:
   extensions:
-    - Sunnysideup\ElementalTemplate\Extensions\ElementalTemplatePageExtension
+    - Sunnysideup\ElementalTemplate\Extensions\PageExtension

@@ -8,7 +8,7 @@ use SilverStripe\Versioned\Versioned;
 
 use SilverStripe\CMS\Model\SiteTreeExtension;
 
-class ElementalTemplateExtension extends SiteTreeExtension
+class PageExtension extends SiteTreeExtension
 {
     /**
      * little helper to make sure we dont loop forever.
