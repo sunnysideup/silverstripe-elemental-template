@@ -2,11 +2,9 @@
 
 namespace Sunnysideup\ElementalTemplate\Extensions;
 
-use SilverStripe\Core\Config\Config;
-
-use SilverStripe\Versioned\Versioned;
-
 use SilverStripe\CMS\Model\SiteTreeExtension;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Versioned\Versioned;
 
 class PageExtension extends SiteTreeExtension
 {
@@ -32,11 +30,11 @@ class PageExtension extends SiteTreeExtension
         $write = false;
         if (! $owner->ElementalArea()->Elements()->exists()) {
             foreach (
-                [
+                array_keys([
                     'inherited' => null,
                     'uninherited' => Config::UNINHERITED,
-                ]
-                as $topVarNameAppendix => $configMethod
+                ])
+                as $topVarNameAppendix
             ) {
                 $className = $owner->ClassName;
                 $list = (array) array_filter($className::config()->get('elemental_template_' . $topVarNameAppendix, Config::UNINHERITED) ?: []);
