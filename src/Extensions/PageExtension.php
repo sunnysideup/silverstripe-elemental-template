@@ -43,9 +43,9 @@ class PageExtension extends SiteTreeExtension
                 foreach ($list as $areaName => $items) {
                     $area = $owner->{$areaName}();
                     foreach (['_top', '', '_bottom'] as $innerVarNameAppendix) {
-                        $elems = (array) array_filter($items['elements' . $innerVarNameAppendix] ?: []);
+                        $elems = (array) array_filter($items['elements' . $innerVarNameAppendix] ?? []);
                         if (! empty($elems)) {
-                            if ($this->findOrMakeDefaultElementsInner($area, $items)) {
+                            if ($this->findOrMakeDefaultElementsInner($area, $elems)) {
                                 $write = true;
                             }
                         }
