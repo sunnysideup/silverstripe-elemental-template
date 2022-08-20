@@ -26,19 +26,20 @@ class PageExtension extends SiteTreeExtension
         }
     }
 
-    protected function findOrMakeDefaultElements(): void
+    public function findOrMakeDefaultElements(): void
     {
         $owner = $this->getOwner();
         $write = false;
         if (! $owner->ElementalArea()->Elements()->exists()) {
             foreach (
                 [
-                    'inherited' => 'get',
-                    'uninherited' => 'uninherited',
+                    'inherited' => null,
+                    'uninherited' => Config::UNINHERITED,
                 ]
                 as $topVarNameAppendix => $configMethod
             ) {
-                $list = (array) array_filter(Config::inst()->{$configMethod}('elemental_template_' . $topVarNameAppendix) ?: []);
+                $className = $owner->ClassName;
+                $list = (array) array_filter($className::config()->get('elemental_template_' . $topVarNameAppendix, Config::UNINHERITED) ?: []);
                 foreach ($list as $areaName => $items) {
                     $area = $owner->{$areaName}();
                     foreach (['_top', '', '_bottom'] as $innerVarNameAppendix) {

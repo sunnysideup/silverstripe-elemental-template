@@ -4,7 +4,7 @@ Name: elemental-template-settings
 
 Page:
   elemental_template_inherited:
-    ElementalArea
+    ElementalArea:
       elements:
         - MyElementalBlock
       elements_bottom:
