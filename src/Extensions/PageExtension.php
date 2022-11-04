@@ -28,7 +28,7 @@ class PageExtension extends SiteTreeExtension
     {
         $owner = $this->getOwner();
         $write = false;
-        if (! $owner->ElementalArea()->Elements()->exists()) {
+        if ($owner->hasMethod('ElementalArea') && ! $owner->ElementalArea()->Elements()->exists()) {
             foreach (
                 array_keys([
                     'inherited' => null,
