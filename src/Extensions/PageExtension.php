@@ -6,6 +6,11 @@ use SilverStripe\CMS\Model\SiteTreeExtension;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Versioned\Versioned;
 
+/**
+ * Class \Sunnysideup\ElementalTemplate\Extensions\PageExtension
+ *
+ * @property Page|PageExtension $owner
+ */
 class PageExtension extends SiteTreeExtension
 {
     /**
