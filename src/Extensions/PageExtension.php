@@ -4,6 +4,7 @@ namespace Sunnysideup\ElementalTemplate\Extensions;
 
 use SilverStripe\CMS\Model\SiteTreeExtension;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Extension;
 use SilverStripe\Versioned\Versioned;
 
 /**
@@ -11,7 +12,7 @@ use SilverStripe\Versioned\Versioned;
  *
  * @property Page|PageExtension $owner
  */
-class PageExtension extends SiteTreeExtension
+class PageExtension extends Extension
 {
     /**
      * little helper to make sure we dont loop forever.
