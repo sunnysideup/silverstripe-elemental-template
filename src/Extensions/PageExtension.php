@@ -2,7 +2,6 @@
 
 namespace Sunnysideup\ElementalTemplate\Extensions;
 
-use SilverStripe\CMS\Model\SiteTreeExtension;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Extension;
 use SilverStripe\Versioned\Versioned;
@@ -39,19 +38,16 @@ class PageExtension extends Extension
                 array_keys([
                     'inherited' => null,
                     'uninherited' => Config::UNINHERITED,
-                ])
-                as $topVarNameAppendix
+                ]) as $topVarNameAppendix
             ) {
                 $className = $owner->ClassName;
-                $list = (array) array_filter($className::config()->get('elemental_template_' . $topVarNameAppendix, Config::UNINHERITED) ?: []);
+                $list = array_filter($className::config()->get('elemental_template_' . $topVarNameAppendix, Config::UNINHERITED) ?: []);
                 foreach ($list as $areaName => $items) {
                     $area = $owner->{$areaName}();
                     foreach (['_top', '', '_bottom'] as $innerVarNameAppendix) {
-                        $elems = (array) array_filter($items['elements' . $innerVarNameAppendix] ?? []);
-                        if (! empty($elems)) {
-                            if ($this->findOrMakeDefaultElementsInner($area, $elems)) {
-                                $write = true;
-                            }
+                        $elems = array_filter($items['elements' . $innerVarNameAppendix] ?? []);
+                        if ($elems !== [] && $this->findOrMakeDefaultElementsInner($area, $elems)) {
+                            $write = true;
                         }
                     }
                 }
