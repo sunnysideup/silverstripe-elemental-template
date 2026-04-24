@@ -65,7 +65,7 @@ class PageExtension extends Extension
         if ($area && $area->ID) {
             foreach ($elems as $className) {
                 $elem = call_user_func([$className, 'create']);
-                $elem->Title = 'Default ' . strtolower(Config::inst()->get($className, 'singular_name'));
+                $elem->Title = 'Default ' . strtolower((string) Config::inst()->get($className, 'singular_name'));
                 $elem->ParentID = $area->ID;
                 // foreach($elementValues as $field => $value) {
                 //     $elem->$field = $value;
